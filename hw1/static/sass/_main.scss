@@ -1,0 +1,24 @@
+.colorful {
+  color: $clrHilight;
+}
+
+@import "compass/css3";
+
+@import "compass/utilities";
+
+#demo {
+  @include clearfix;
+}
+
+div.border-radius-example {
+  width: 75px;
+  height: 75px;
+  background: lightgrey;
+  margin: 20px;
+  float: left;
+  padding: 5px;
+}
+
+#border-radius {
+  @include border-radius(25px);
+}

@@ -1,0 +1,94 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    var get_user_url = "{{=URL('api', 'get_user')}}";
+    var get_posts_url = "{{=URL('api', 'get_posts')}}";
+    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
+    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+</script>
+{{end}}
+
+<div class="main_content container">
+
+    <div id="vue-div" style="display: none">
+        <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
+
+        <div v-if="is_logged_in">
+
+          <div v-if="is_adding_post">
+            <div class="input-group" id="add-new-post">
+              <span class="input-group-btn">
+                <button v-on:click="toggle_adding_post()" class="btn btn-default" type="button">
+                  Cancel
+                </button>
+              </span>
+              <input v-model="add_post_content" type="text" class="form-control" placeholder="Post content...">
+              <span class="input-group-btn">
+                <button v-on:click="add_post()" class="btn btn-primary post-button" type="button">
+                  Post
+                </button>
+              </span>
+            </div>
+          </div>
+
+          <div v-else>
+            <button v-on:click="toggle_adding_post()" class="btn btn-danger">
+              Add new post
+            </button>
+          </div>
+
+        </div>
+
+        <ul class="list-group" style="margin-top: 20px;">
+
+          <li v-for="(post, index) in posts" class="list-group-item list-group-item-action">
+            <div class="input-group post-content">
+
+              <span v-if="is_editing_post_with_index === index">
+                <textarea rows="1" class="form-control" v-model="edit_post_content"></textarea>
+                <div class="btn-group" role="group" style="margin-top: 10px;">
+                  <button v-on:click="toggle_editing_post()" class="btn btn-default cancel-button" type="button">
+                    Cancel
+                  </button>
+                  <button v-on:click="edit_post(post.id, index)" class="btn btn-primary post-edit-content" type="button">
+                    Post
+                  </button>
+                </div>
+
+              </span>
+
+              <span v-else>
+                <h3 class="list-group-item-heading">${post.post_content}</h3>
+                <p class="list-group-item-text">
+                  <strong style="display: block;">${post.user_name}</strong>
+                  <span style="display: block;">${post.created_on}</span>
+                  <span v-if="post.updated_on != post.created_on" style="display: block;">edited on ${post.updated_on}</span>
+                  <span v-if="is_logged_in && post.user_email === user.email">
+                    <button v-on:click="toggle_editing_post(index)">
+                      <i class="fa fa-pencil-square-o"></i>
+                    </button>
+                    <button v-on:click="del_post(post.id); posts.splice(index, 1)">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </span>
+                </p>
+              </span>
+
+            </div>
+          </li>
+        </ul>
+
+        <div v-if="has_more" style="width: 100%; text-align: center; margin-bottom: 20px;">
+          <button v-on:click="get_posts()" class="btn btn-default" id="load-more">Load More</button>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>

@@ -1,0 +1,27 @@
+/* line 1, ../sass/_main.scss */
+.colorful {
+  color: #bb8833;
+}
+
+/* line 9, ../sass/_main.scss */
+#demo {
+  overflow: hidden;
+  *zoom: 1;
+}
+
+/* line 13, ../sass/_main.scss */
+div.border-radius-example {
+  width: 75px;
+  height: 75px;
+  background: lightgrey;
+  margin: 20px;
+  float: left;
+  padding: 5px;
+}
+
+/* line 22, ../sass/_main.scss */
+#border-radius {
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px;
+}
